@@ -23,6 +23,9 @@ namespace Script.I200.ElasticSearch
             // 禁用XML序列化器
             config.Formatters.XmlFormatter.UseXmlSerializer = false;
 
+            // 使用attribute路由规则 
+            config.MapHttpAttributeRoutes();
+
             //日期格式
             config.Formatters.JsonFormatter.SerializerSettings.Converters.Add(new MyDateTimeConvertor());
 

@@ -1,16 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Http;
+using Nest;
 
 namespace Script.I200.ElasticSearch.Controllers
 {
-    public class HomeController : Controller
+    /// <summary>
+    ///     Nest 客户端调用ES api接口测试
+    /// </summary>
+    [RoutePrefix("v0")]
+    public class HomeController : BaseApiController
     {
-        public ActionResult Index()
+        /// <summary>
+        ///     创建ES客户端
+        /// </summary>
+        private ElasticClient _client;
+
+        public HomeController()
         {
-            return View();
+            _client = NestDemos.CreateClient();
         }
     }
 }

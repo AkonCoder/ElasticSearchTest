@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Web.Mvc;
+using System.Web.Http;
 using Script.I200.ElasticSearch.Models;
 
 namespace Script.I200.ElasticSearch.Controllers
 {
+    [RoutePrefix("v0/test")]
     public class TestController : BaseApiController
     {
         /// <summary>
@@ -12,7 +13,7 @@ namespace Script.I200.ElasticSearch.Controllers
         /// </summary>
         /// <returns></returns>
         [Route("estest/index")]
-        [System.Web.Http.HttpGet]
+        [HttpGet]
         public object Index()
         {
             var rd = new Random();
@@ -36,7 +37,7 @@ namespace Script.I200.ElasticSearch.Controllers
         }
 
         [Route("estest")]
-        [System.Web.Http.HttpGet]
+        [HttpGet]
         public object Search()
         {
             //1 搜索数据
@@ -49,19 +50,19 @@ namespace Script.I200.ElasticSearch.Controllers
         }
 
         [Route("estest/SearchFullFileds")]
-        [System.Web.Http.HttpGet]
+        [HttpGet]
         public object SearchFullFileds()
         {
             //1 搜索数据
-            var key = GetStringRequest("Key");
-            var from = GetIntRequest("from");
+            var key = string.IsNullOrWhiteSpace(GetStringRequest("Key")) ? "方鸿渐" : GetStringRequest("Key");
+            var from = GetIntRequest("from") == 0 ? 0 : 10;
             var size = GetIntRequest("size");
-            return ElasticSearchHelper.Intance.SearchFullFileds<TestModel.person>("db_test", "person", key ?? "方鸿渐",
-                @from ?? 0, size ?? 20);
+            return ElasticSearchHelper.Intance.SearchFullFileds<TestModel.person>("db_test", "person", key,
+                from, size ?? 20);
         }
 
         [Route("estest/SearchFullFiledss")]
-        [System.Web.Http.HttpGet]
+        [HttpGet]
         public object SearchFullFiledss()
         {
             //1 搜索数据
